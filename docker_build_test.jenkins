@@ -1,0 +1,20 @@
+properties([disableConcurrentBuilds()])
+
+pipeline {
+    ahent {
+    label 'master'
+    }
+    options {
+	buildDiscarder(logRotator(numToKeepStr:'10',artifactNumToKeepStr:'10'))
+	timestams()
+    }
+    stages {
+	stage("create docker image") {
+	    steps {
+		echo "============= start building image ================"
+		dir ('docker/toolbox') {
+		    sh 'docker build.'
+		}
+	}
+    }
+}
